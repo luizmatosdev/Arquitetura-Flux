@@ -8,7 +8,7 @@ import {
 } from 'react-icons/md'
 
 import { Container, ProductTable, Total } from './styles'
-function Cart({ cart }) {
+function Cart({ cart, dispatch }) {
   return (
     <Container>
       <ProductTable>
@@ -36,7 +36,7 @@ function Cart({ cart }) {
                   <button type="button">
                     <MdRemoveCircleOutline size={20} color="#5aaeb8" />
                   </button>
-                  <input type="number" readOnly value={1} />
+                  <input type="number" readOnly value={product.amount} />
                   <button type="button">
                     <MdAddCircleOutline size={20} color="#5aaeb8" />
                   </button>
@@ -46,7 +46,12 @@ function Cart({ cart }) {
                 <strong>R$258,80</strong>
               </td>
               <td>
-                <button type="button">
+                <button
+                  type="button"
+                  onClick={() =>
+                    dispatch({ type: 'REMOVE_FROM_CART', id: product.id })
+                  }
+                >
                   <MdDelete size={20} color="#5aaeb8" />
                 </button>
               </td>
@@ -64,6 +69,7 @@ function Cart({ cart }) {
     </Container>
   )
 }
-export default connect(state => ({
+const mapStateToProps = state => ({
   cart: state.cart,
-}))(Cart)
+})
+export default connect(mapStateToProps)(Cart)
